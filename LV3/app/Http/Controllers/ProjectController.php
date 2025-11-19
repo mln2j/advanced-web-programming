@@ -60,7 +60,8 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return view('projects.show', compact('project'));
+        $isVoditelj = $project->voditelj_id == auth()->id();
+        return view('projects.show', compact('project', 'isVoditelj'));
     }
 
     /**
@@ -69,7 +70,9 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $users = \App\Models\User::where('id', '!=', auth()->id())->get();
-        return view('projects.edit', compact('project', 'users'));
+        $isVoditelj = $project->voditelj_id == auth()->id();
+        $isClan = $project->clanovi->pluck('id')->contains(auth()->id());
+        return view('projects.edit', compact('project', 'users', 'isVoditelj', 'isClan'));
     }
 
     /**

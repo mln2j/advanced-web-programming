@@ -21,8 +21,22 @@
                     @endforeach
                 </ul>
             </div>
-            <div class="mt-4">
-                <a href="{{ route('projects.edit', $project) }}"><x-primary-button>Uredi</x-primary-button></a>
+            <div class="mt-4 flex gap-2">
+                <a href="{{ route('projects.index') }}">
+                    <x-secondary-button>← {{ __('Back to Projects') }}</x-secondary-button>
+                </a>
+                <div >
+                    <a href="{{ route('projects.edit', $project) }}"><x-primary-button>Edit</x-primary-button></a>
+                </div>
+                @if($isVoditelj)
+                    <form method="POST" action="{{ route('projects.destroy', $project) }}" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <x-danger-button onclick="return confirm('Jesi li siguran da želiš obrisati projekt?')">
+                            {{ __('Delete') }}
+                        </x-danger-button>
+                    </form>
+                @endif
             </div>
         </div>
     </div>
