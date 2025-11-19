@@ -25,3 +25,7 @@ Homestead.yaml
 !/storage/app/public
 /storage/framework/*
 /storage/logs/*
+
+/LV2/pr2/backup/
+/LV2/pr2/
+/LV1/pr1/
