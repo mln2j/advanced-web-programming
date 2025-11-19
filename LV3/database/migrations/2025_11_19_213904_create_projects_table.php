@@ -13,7 +13,15 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
+            $table->string('naziv_projekta');
+            $table->text('opis_projekta')->nullable();
+            $table->decimal('cijena_projekta', 10, 2)->nullable();
+            $table->text('obavljeni_poslovi')->nullable();
+            $table->date('datum_pocetka');
+            $table->date('datum_zavrsetka')->nullable();
+            $table->unsignedBigInteger('voditelj_id');
             $table->timestamps();
+            $table->foreign('voditelj_id')->references('id')->on('users');
         });
     }
 
