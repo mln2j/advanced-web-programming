@@ -1,0 +1,22 @@
+# Laravel i node_modules
+/vendor/
+/node_modules/
+/storage/*.key
+.env
+.env.*
+/public/storage
+/public/build/
+/storage/app/*
+!/storage/app/public
+/storage/framework/*
+/storage/logs/*
+/npm-debug.log
+yarn-error.log
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+.npm/
+*.log
+# Mac/IDE
+.DS_Store
+.idea/
