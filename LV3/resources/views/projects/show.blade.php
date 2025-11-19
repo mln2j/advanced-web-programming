@@ -11,8 +11,8 @@
                 <strong>Opis:</strong> {{ $project->opis_projekta }}<br>
                 <strong>Cijena:</strong> {{ $project->cijena_projekta }}<br>
                 <strong>Obavljeni poslovi:</strong> {{ $project->obavljeni_poslovi }}<br>
-                <strong>Datum početka:</strong> {{ $project->datum_pocetka }}<br>
-                <strong>Datum završetka:</strong> {{ $project->datum_zavrsetka }}<br>
+                <strong>Datum početka:</strong> {{ \Carbon\Carbon::parse($project->datum_pocetka)->format('d.m.Y.') }}<br>
+                <strong>Datum završetka:</strong> {{ \Carbon\Carbon::parse($project->datum_zavrsetka)->format('d.m.Y.') }}<br>
                 <strong>Voditelj:</strong> {{ $project->voditelj->name }}<br>
                 <strong>Članovi tima:</strong>
                 <ul class="ml-4">
