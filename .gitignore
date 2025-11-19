@@ -1,0 +1,27 @@
+# IDE i OS
+.DS_Store
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Laravel/PHP
+/vendor/
+/node_modules/
+/public/storage
+/storage/*.key
+.env
+.env.local
+.env.backup
+npm-debug.log
+yarn-error.log
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+.npm/
+*.log
+
+# Application
+/storage/app/*
+!/storage/app/public
+/storage/framework/*
+/storage/logs/*
