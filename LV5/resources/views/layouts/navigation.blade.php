@@ -31,6 +31,9 @@
                             <x-nav-link :href="route('tasks.student')" :active="request()->routeIs('tasks.student')">
                                 {{ __('Tasks') }}
                             </x-nav-link>
+                            <x-nav-link :href="route('applications.my')" :active="request()->routeIs('applications.my')">
+                                {{ __('My Applications') }}
+                            </x-nav-link>
                         @endif
 
                         {{-- nastavnik/admin – njegovi radovi --}}
@@ -111,6 +114,9 @@
                 @if(Auth::user()->role === 'student')
                     <x-responsive-nav-link :href="route('tasks.student')" :active="request()->routeIs('tasks.student')">
                         {{ __('Tasks') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('applications.my')" :active="request()->routeIs('applications.my')">
+                        {{ __('My Applications') }}
                     </x-responsive-nav-link>
                 @endif
                 @if(auth()->user()->role === 'nastavnik')

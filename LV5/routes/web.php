@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\TaskManagementController;
 use App\Http\Controllers\Admin\UserManagementController;
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
@@ -27,7 +28,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/admin/users/{user}', [UserManagementController::class, 'destroy'])->name('admin.users.destroy');
 
 
-
     Route::get('/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
     Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
     Route::get('/my-tasks', [TaskController::class, 'myTasks'])->name('tasks.my');
@@ -41,6 +41,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/tasks/{task}/edit', [TaskManagementController::class, 'edit'])->name('admin.tasks.edit');
     Route::put('/admin/tasks/{task}', [TaskManagementController::class, 'update'])->name('admin.tasks.update');
     Route::delete('/admin/tasks/{task}', [TaskManagementController::class, 'destroy'])->name('admin.tasks.destroy');
+
+    Route::post('/tasks/{task}/apply', [ApplicationController::class, 'store'])->name('applications.store');
+
+    Route::get('/tasks/{task}/applications', [ApplicationController::class, 'indexForTask'])->name('applications.index');
+    Route::post('/applications/{application}/accept', [ApplicationController::class, 'accept'])->name('applications.accept');
+
+    Route::get('/my-applications', [ApplicationController::class, 'myApplications'])->name('applications.my');
+    Route::post('/my-applications/reorder', [ApplicationController::class, 'reorder'])->name('applications.reorder');
+    Route::delete('/my-applications/{application}', [ApplicationController::class, 'destroy'])->name('applications.destroy');
 });
 
 require __DIR__ . '/auth.php';

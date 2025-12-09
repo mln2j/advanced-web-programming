@@ -60,7 +60,8 @@ class TaskController extends Controller
     {
         $this->authorizeRole('student');
 
-        $tasks = Task::with('user')->get();
+        $tasks = Task::with(['user', 'applications'])->get();
+
 
         return view('tasks.index_student', compact('tasks'));
     }

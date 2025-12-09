@@ -22,5 +22,20 @@ class Task extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
+
+    public function isAppliedByUser(?int $userId): bool
+    {
+        if (!$userId) {
+            return false;
+        }
+
+        return $this->applications->contains('user_id', $userId);
+    }
+
 }
 

@@ -30,6 +30,14 @@
                             <tr class="border-t border-gray-200 dark:border-gray-700">
                                 <td class="px-6 py-3">{{ $task->title_hr }}</td>
                                 <td class="px-6 py-3">{{ $task->study_type }}</td>
+                                <td class="px-6 py-3">
+                                    <div class="flex justify-end gap-2">
+                                        <a href="{{ route('applications.index', $task) }}"
+                                           class="inline-flex items-center px-3 py-1.5 border border-blue-600 text-xs font-semibold rounded-md text-blue-600 hover:bg-blue-600 hover:text-white transition">
+                                            Prijave
+                                        </a>
+                                    </div>
+                                </td>
                                 @if(auth()->user()->role === 'admin')
                                     <td class="px-6 py-3">{{ $task->user->name }}</td>
                                 @endif
