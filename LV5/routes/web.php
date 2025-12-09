@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\TaskManagementController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -23,6 +25,22 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/users/{user}/edit', [UserManagementController::class, 'edit'])->name('admin.users.edit');
     Route::put('/admin/users/{user}', [UserManagementController::class, 'update'])->name('admin.users.update');
     Route::delete('/admin/users/{user}', [UserManagementController::class, 'destroy'])->name('admin.users.destroy');
+
+
+
+    Route::get('/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
+    Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
+    Route::get('/my-tasks', [TaskController::class, 'myTasks'])->name('tasks.my');
+
+
+    Route::get('/tasks', [TaskController::class, 'indexForStudent'])->name('tasks.student');
+
+    Route::get('/admin/tasks', [TaskManagementController::class, 'index'])->name('admin.tasks.index');
+    Route::get('/admin/tasks/create', [TaskManagementController::class, 'create'])->name('admin.tasks.create');
+    Route::post('/admin/tasks', [TaskManagementController::class, 'store'])->name('admin.tasks.store');
+    Route::get('/admin/tasks/{task}/edit', [TaskManagementController::class, 'edit'])->name('admin.tasks.edit');
+    Route::put('/admin/tasks/{task}', [TaskManagementController::class, 'update'])->name('admin.tasks.update');
+    Route::delete('/admin/tasks/{task}', [TaskManagementController::class, 'destroy'])->name('admin.tasks.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

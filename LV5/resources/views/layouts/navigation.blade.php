@@ -20,6 +20,24 @@
                             <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
                                 {{ __('User Management') }}
                             </x-nav-link>
+                            <x-nav-link :href="route('admin.tasks.index')" :active="request()->routeIs('admin.tasks.*')">
+                                {{ __('Task Management') }}
+                            </x-nav-link>
+                        @endif
+                    @endauth
+                    {{-- student vidi listu radova --}}
+                    @auth
+                        @if(auth()->user()->role === 'student')
+                            <x-nav-link :href="route('tasks.student')" :active="request()->routeIs('tasks.student')">
+                                {{ __('Tasks') }}
+                            </x-nav-link>
+                        @endif
+
+                        {{-- nastavnik/admin – njegovi radovi --}}
+                        @if(auth()->user()->role === 'nastavnik')
+                            <x-nav-link :href="route('tasks.my')" :active="request()->routeIs('tasks.my')">
+                                {{ __('My Tasks') }}
+                            </x-nav-link>
                         @endif
                     @endauth
                 </div>
@@ -73,11 +91,34 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
+    <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            @auth
+                @if(Auth::user()->role === 'admin')
+                    <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                        {{ __('User Management') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('admin.tasks.index')" :active="request()->routeIs('admin.tasks.*')">
+                        {{ __('Task Management') }}
+                    </x-responsive-nav-link>
+                @endif
+
+                @if(Auth::user()->role === 'student')
+                    <x-responsive-nav-link :href="route('tasks.student')" :active="request()->routeIs('tasks.student')">
+                        {{ __('Tasks') }}
+                    </x-responsive-nav-link>
+                @endif
+                @if(auth()->user()->role === 'nastavnik')
+                    <x-nav-link :href="route('tasks.my')" :active="request()->routeIs('tasks.my')">
+                        {{ __('My Tasks') }}
+                    </x-nav-link>
+                @endif
+            @endauth
         </div>
 
         <!-- Responsive Settings Options -->
@@ -92,17 +133,15 @@
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
-                <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-
                     <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                                           onclick="event.preventDefault(); this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>
             </div>
         </div>
     </div>
+
 </nav>
