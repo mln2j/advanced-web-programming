@@ -15,7 +15,15 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @auth
+                        @if(Auth::user()->role === 'admin')
+                            <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                                {{ __('User Management') }}
+                            </x-nav-link>
+                        @endif
+                    @endauth
                 </div>
+
             </div>
 
             <!-- Settings Dropdown -->
