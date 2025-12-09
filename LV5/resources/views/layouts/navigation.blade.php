@@ -13,15 +13,15 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('messages.dashboard') }}
                     </x-nav-link>
                     @auth
                         @if(Auth::user()->role === 'admin')
                             <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
-                                {{ __('User Management') }}
+                                {{ __('messages.user_management') }}
                             </x-nav-link>
                             <x-nav-link :href="route('admin.tasks.index')" :active="request()->routeIs('admin.tasks.*')">
-                                {{ __('Task Management') }}
+                                {{ __('messages.task_management') }}
                             </x-nav-link>
                         @endif
                     @endauth
@@ -29,17 +29,17 @@
                     @auth
                         @if(auth()->user()->role === 'student')
                             <x-nav-link :href="route('tasks.student')" :active="request()->routeIs('tasks.student')">
-                                {{ __('Tasks') }}
+                                {{ __('messages.tasks') }}
                             </x-nav-link>
                             <x-nav-link :href="route('applications.my')" :active="request()->routeIs('applications.my')">
-                                {{ __('My Applications') }}
+                                {{ __('messages.my_applications') }}
                             </x-nav-link>
                         @endif
 
                         {{-- nastavnik/admin – njegovi radovi --}}
                         @if(auth()->user()->role === 'nastavnik')
                             <x-nav-link :href="route('tasks.my')" :active="request()->routeIs('tasks.my')">
-                                {{ __('My Tasks') }}
+                                {{ __('messages.my_tasks') }}
                             </x-nav-link>
                         @endif
                     @endauth
@@ -49,6 +49,18 @@
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                {{-- Language switcher --}}
+                <div class="flex items-center space-x-1">
+                    <a href="{{ route('language.switch', 'hr') }}"
+                       class="text-xs font-semibold {{ app()->getLocale() === 'hr' ? 'text-blue-600' : 'text-gray-500' }}">
+                        HR
+                    </a>
+                    <span class="text-xs text-gray-400">|</span>
+                    <a href="{{ route('language.switch', 'en') }}"
+                       class="text-xs font-semibold {{ app()->getLocale() === 'en' ? 'text-blue-600' : 'text-gray-500' }}">
+                        EN
+                    </a>
+                </div>
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
@@ -135,6 +147,17 @@
             </div>
 
             <div class="mt-3 space-y-1">
+                <div class="px-4 pb-2 flex items-center space-x-2">
+                    <a href="{{ route('language.switch', 'hr') }}"
+                       class="text-xs font-semibold {{ app()->getLocale() === 'hr' ? 'text-blue-600' : 'text-gray-500' }}">
+                        HR
+                    </a>
+                    <span class="text-xs text-gray-400">|</span>
+                    <a href="{{ route('language.switch', 'en') }}"
+                       class="text-xs font-semibold {{ app()->getLocale() === 'en' ? 'text-blue-600' : 'text-gray-500' }}">
+                        EN
+                    </a>
+                </div>
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>

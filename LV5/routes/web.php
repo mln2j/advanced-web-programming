@@ -7,19 +7,35 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
+// Language switcher
+Route::get('/language/{locale}', function (string $locale) {
+    if (!in_array($locale, ['hr', 'en'])) {
+        abort(404);
+    }
+
+    session(['locale' => $locale]);
+
+    return redirect()->back();
+})->name('language.switch');
+
+// Welcome
 Route::get('/', function () {
     return view('welcome');
 });
 
+// Dashboard
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+// Authenticated routes
+Route::middleware(['auth', 'setLocale'])->group(function () {
+    // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // User management (admin)
     Route::get('/admin/users', [UserManagementController::class, 'index'])->name('admin.users.index');
     Route::get('/admin/users/create', [UserManagementController::class, 'create'])->name('admin.users.create');
     Route::post('/admin/users', [UserManagementController::class, 'store'])->name('admin.users.store');
@@ -27,14 +43,15 @@ Route::middleware('auth')->group(function () {
     Route::put('/admin/users/{user}', [UserManagementController::class, 'update'])->name('admin.users.update');
     Route::delete('/admin/users/{user}', [UserManagementController::class, 'destroy'])->name('admin.users.destroy');
 
-
+    // Teacher tasks (my tasks)
     Route::get('/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
     Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
     Route::get('/my-tasks', [TaskController::class, 'myTasks'])->name('tasks.my');
 
-
+    // Student tasks list
     Route::get('/tasks', [TaskController::class, 'indexForStudent'])->name('tasks.student');
 
+    // Admin task management
     Route::get('/admin/tasks', [TaskManagementController::class, 'index'])->name('admin.tasks.index');
     Route::get('/admin/tasks/create', [TaskManagementController::class, 'create'])->name('admin.tasks.create');
     Route::post('/admin/tasks', [TaskManagementController::class, 'store'])->name('admin.tasks.store');
@@ -42,14 +59,17 @@ Route::middleware('auth')->group(function () {
     Route::put('/admin/tasks/{task}', [TaskManagementController::class, 'update'])->name('admin.tasks.update');
     Route::delete('/admin/tasks/{task}', [TaskManagementController::class, 'destroy'])->name('admin.tasks.destroy');
 
+    // Applications – student apply
     Route::post('/tasks/{task}/apply', [ApplicationController::class, 'store'])->name('applications.store');
 
+    // Applications – teacher view & accept
     Route::get('/tasks/{task}/applications', [ApplicationController::class, 'indexForTask'])->name('applications.index');
     Route::post('/applications/{application}/accept', [ApplicationController::class, 'accept'])->name('applications.accept');
 
+    // Student my applications + reorder + delete
     Route::get('/my-applications', [ApplicationController::class, 'myApplications'])->name('applications.my');
     Route::post('/my-applications/reorder', [ApplicationController::class, 'reorder'])->name('applications.reorder');
     Route::delete('/my-applications/{application}', [ApplicationController::class, 'destroy'])->name('applications.destroy');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
