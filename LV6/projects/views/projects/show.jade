@@ -1,0 +1,58 @@
+extends ../layout
+
+block content
+  .app-bar
+    .align-center.flex
+      a(href='/projects')
+        i.icon.mr-2 arrow_back
+      h3(style='color:white; margin:0') Detalji projekta
+
+  .container
+    .card
+      .flex.justify-between.align-center
+        h1(style='margin:0')= project.naziv
+        a.btn.btn-secondary(href='/projects/' + project._id + '/edit')
+          i.icon.mr-2 edit
+          | Uredi
+      
+      .mt-2
+        p(style='font-size: 18px; color: rgba(0,0,0,0.7)')= project.opis
+      
+      .flex.mt-2
+        .mr-2(style='flex: 1')
+          label CIJENA
+          p(style='font-size: 20px; font-weight: 500; color: var(--primary-color)')= project.cijena + ' €'
+        .mr-2(style='flex: 1')
+          label DATUM POČETKA
+          p= project.datum_pocetka ? project.datum_pocetka.toLocaleDateString() : '-'
+        .mr-2(style='flex: 1')
+          label DATUM ZAVRŠETKA
+          p= project.datum_zavrsetka ? project.datum_zavrsetka.toLocaleDateString() : '-'
+
+      if project.obavljeni_poslovi
+        .mt-2
+          label OBAVLJENI POSLOVI
+          p= project.obavljeni_poslovi
+
+    .card
+      h2.flex.align-center
+        i.icon.mr-2 group
+        | Članovi tima
+      
+      if project.clanovi_tima && project.clanovi_tima.length > 0
+        ul(style='list-style: none; padding: 0')
+          each member in project.clanovi_tima
+            li.flex.align-center(style='padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.05)')
+              i.icon.mr-2 person
+              span= member
+      else
+        p Tim još nema članova.
+      
+      hr(style='border: none; border-top: 1px solid rgba(0,0,0,0.12); margin: 24px 0')
+      
+      h3 Dodaj novog člana
+      form.flex.align-center(action='/projects/' + project._id + '/members', method='POST')
+        .form-group(style='flex: 1; margin: 0; margin-right: 16px')
+          input(type='text', name='member_name', placeholder='Ime i prezime člana...', required)
+        button.btn.btn-primary(type='submit')
+          i.icon add

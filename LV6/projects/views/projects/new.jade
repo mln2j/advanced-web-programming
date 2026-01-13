@@ -1,0 +1,38 @@
+extends ../layout
+
+block content
+  .app-bar
+    .align-center.flex
+      a(href='/projects')
+        i.icon.mr-2 arrow_back
+      h3(style='color:white; margin:0') Novi projekt
+
+  .container
+    .card
+      h1 Unesite detalje projekta
+      form(action='/projects', method='POST')
+        .form-group
+          label(for='naziv') Naziv projekta
+          input#naziv(type='text', name='naziv', required, placeholder='Npr. Izrada web stranice')
+        .form-group
+          label(for='opis') Opis projekta
+          textarea#opis(name='opis', required, rows='3', placeholder='Kratki opis ciljeva i svrhe...')
+        .form-group
+          label(for='cijena') Cijena (EUR)
+          input#cijena(type='number', name='cijena', step='0.01', required, placeholder='0.00')
+        .form-group
+          label(for='obavljeni_poslovi') Obavljeni poslovi
+          textarea#obavljeni_poslovi(name='obavljeni_poslovi', rows='2', placeholder='Popis završenih faza...')
+        .flex.justify-between
+          .form-group(style='width: 48%')
+            label(for='datum_pocetka') Datum početka
+            input#datum_pocetka(type='date', name='datum_pocetka', required)
+          .form-group(style='width: 48%')
+            label(for='datum_zavrsetka') Datum završetka
+            input#datum_zavrsetka(type='date', name='datum_zavrsetka')
+        
+        .mt-2.flex.justify-between
+          a.btn.btn-secondary(href='/projects') Odustani
+          button.btn.btn-primary(type='submit') 
+            i.icon.mr-2 save
+            | Spremi projekt

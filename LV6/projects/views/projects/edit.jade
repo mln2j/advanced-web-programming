@@ -1,0 +1,40 @@
+extends ../layout
+
+block content
+  .app-bar
+    .align-center.flex
+      a(href='/projects/' + project._id)
+        i.icon.mr-2 arrow_back
+      h3(style='color:white; margin:0') Uredi projekt
+
+  .container
+    .card
+      h1 Ažuriranje podataka
+      form(action='/projects/' + project._id + '/edit', method='POST')
+        .form-group
+          label(for='naziv') Naziv projekta
+          input#naziv(type='text', name='naziv', value=project.naziv, required)
+        .form-group
+          label(for='opis') Opis projekta
+          textarea#opis(name='opis', required, rows='3')= project.opis
+        .form-group
+          label(for='cijena') Cijena (EUR)
+          input#cijena(type='number', name='cijena', value=project.cijena, step='0.01', required)
+        .form-group
+          label(for='obavljeni_poslovi') Obavljeni poslovi
+          textarea#obavljeni_poslovi(name='obavljeni_poslovi', rows='2')= project.obavljeni_poslovi
+        .flex.justify-between
+          .form-group(style='width: 48%')
+            label(for='datum_pocetka') Datum početka
+            - var start_date = project.datum_pocetka ? project.datum_pocetka.toISOString().split('T')[0] : ''
+            input#datum_pocetka(type='date', name='datum_pocetka', value=start_date, required)
+          .form-group(style='width: 48%')
+            label(for='datum_zavrsetka') Datum završetka
+            - var end_date = project.datum_zavrsetka ? project.datum_zavrsetka.toISOString().split('T')[0] : ''
+            input#datum_zavrsetka(type='date', name='datum_zavrsetka', value=end_date)
+        
+        .mt-2.flex.justify-between
+          a.btn.btn-secondary(href='/projects/' + project._id) Odustani
+          button.btn.btn-primary(type='submit') 
+            i.icon.mr-2 update
+            | Ažuriraj projekt
