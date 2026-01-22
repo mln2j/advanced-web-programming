@@ -1,0 +1,23 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='preconnect', href='https://fonts.googleapis.com')
+    link(rel='preconnect', href='https://fonts.gstatic.com', crossorigin)
+    link(href='https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap', rel='stylesheet')
+    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    if user
+      .app-bar(style='background-color: #3700b3; font-size: 14px; padding: 8px 24px')
+        .flex.align-center
+          i.icon.mr-2 person
+          span Prijavljeni ste kao: 
+            strong= user.name
+        div
+          a(href='/projects/lead', style='margin-right: 20px') Moji projekti (Voditelj)
+          a(href='/projects/member', style='margin-right: 20px') Projekti tima
+          a(href='/projects/archive', style='margin-right: 20px') Arhiva
+          a(href='/auth/logout') Odjava
+    
+    block content

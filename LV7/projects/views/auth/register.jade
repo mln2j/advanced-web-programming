@@ -1,0 +1,29 @@
+extends ../layout
+
+block content
+  .app-bar
+    .align-center.flex
+      a(href='/projects')
+        i.icon.mr-2 assignment
+      h3(style='color:white; margin:0') Registracija
+
+  .container
+    .card(style='max-width: 400px; margin: 40px auto')
+      h1 novi korisnik
+      form(action='/auth/register', method='POST')
+        .form-group
+          label(for='name') Ime i prezime
+          input#name(type='text', name='name', required, placeholder='Npr. Ivan Horvat')
+        .form-group
+          label(for='username') Korisničko ime
+          input#username(type='text', name='username', required, placeholder='ivan_h')
+        .form-group
+          label(for='password') Lozinka
+          input#password(type='password', name='password', required, placeholder='••••••••', style='width: 100%; padding: 12px 0; border: none; border-bottom: 1px solid rgba(0,0,0,0.12); font-size: 16px; background: transparent; outline: none;')
+        
+        .mt-2
+          button.btn.btn-primary(type='submit', style='width: 100%') Registriraj se
+        
+      .mt-2(style='text-align: center')
+        p Već imate račun? 
+          a(href='/auth/login') Prijavite se

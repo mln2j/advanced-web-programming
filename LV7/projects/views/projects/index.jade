@@ -1,0 +1,45 @@
+extends ../layout
+
+block content
+  .app-bar
+    .align-center.flex
+      i.icon.mr-2 assignment
+      h3(style='color:white; margin:0')= title || 'Projekti'
+    a.btn.btn-primary(href='/projects/new')
+      i.icon.mr-2 add
+      | Novi projekt
+
+  .container
+    .card
+      h1= title || 'Popis projekata'
+      if projects.length > 0
+        table.data-table
+          thead
+            tr
+              th Naziv
+              th Voditelj
+              th Cijena
+              th(style='text-align:right') Radnje
+          tbody
+            each project in projects
+              tr
+                td(style='font-weight:500')= project.naziv
+                td= project.voditelj ? (project.voditelj._id.toString() === user._id.toString() ? 'Ja' : project.voditelj.name) : '-'
+                td= project.cijena + ' €'
+                td(style='text-align:right')
+                  a.btn.btn-secondary.mr-2(href='/projects/' + project._id, title='Detalji')
+                    i.icon visibility
+                  if project.voditelj && project.voditelj._id.toString() === user._id.toString()
+                    a.btn.btn-secondary.mr-2(href='/projects/' + project._id + '/edit', title='Uredi')
+                      i.icon edit
+                    form(action='/projects/' + project._id + '/archive', method='POST', style='display:inline')
+                      button.btn.btn-secondary.mr-2(type='submit', title=project.arhiviran ? 'Vrati iz arhive' : 'Arhiviraj')
+                        i.icon= project.arhiviran ? 'unarchive' : 'archive'
+                    form(action='/projects/' + project._id + '/delete', method='POST', style='display:inline')
+                      button.btn.btn-secondary.btn-danger(type='submit', onclick="return confirm('Jeste li sigurni?')", title='Obriši')
+                        i.icon delete
+                  else
+                    a.btn.btn-secondary.mr-2(href='/projects/' + project._id + '/edit', title='Uredi obavljene poslove')
+                      i.icon edit_note
+      else
+        p.mt-2 Trenutno nema projekata u ovoj kategoriji.
