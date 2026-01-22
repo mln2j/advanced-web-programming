@@ -108,8 +108,11 @@ router.get('/:id/edit', async function (req, res, next) {
         const project = await Project.findById(req.params.id);
         if (!project) return next(new Error('Project not found'));
 
-        if (project.voditelj.toString() !== req.user._id.toString()) {
-            return res.status(403).send('Samo voditelj može uređivati detalje projekta');
+        const isLead = project.voditelj.toString() === req.user._id.toString();
+        const isMember = project.clanovi_tima.some(m => m.toString() === req.user._id.toString());
+
+        if (!isLead && !isMember) {
+            return res.status(403).send('Nemate pristup uređivanju ovog projekta');
         }
 
         res.render('projects/edit', { project });

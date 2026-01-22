@@ -11,7 +11,8 @@ block content
     .card
       h1 Ažuriranje podataka
       form(action='/projects/' + project._id + '/edit', method='POST')
-        if project.voditelj.toString() === user._id.toString()
+        - var isLead = project.voditelj.toString() === user._id.toString()
+        if isLead
           .form-group
             label(for='naziv') Naziv projekta
             input#naziv(type='text', name='naziv', value=project.naziv, required)
